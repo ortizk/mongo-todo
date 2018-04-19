@@ -1,5 +1,5 @@
 var express    = require('express');
-var bodyParser = require('body-Parser');
+var bodyParser = require('body-parser');
 // var mongoose   = require('mongoose');
 var app        = express();
 // var Todo        = require('./models/todo');
@@ -53,7 +53,7 @@ app.delete('/api/todos/:id', function (req, res) {
 
 // //should be in routes
 // app.put('/api/todos/:id' (req, res) => {
-	
+
 // 	res.render('Home')
 
 // })
