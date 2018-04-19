@@ -50,6 +50,23 @@ app.delete('/api/todos/:id', function (req, res) {
   })
 });
 
+
+// //should be in routes
+// app.put('/api/todos/:id' (req, res) => {
+	
+// 	res.render('Home')
+
+// })
+
+// //another way---use this when trying to unpdate a post from a specific user
+// app.put("users/:id/tweets/:tweet_id", (req, res) => {
+// 	let newTweetData = req.body;
+// 	Tweet.findByIdAndUpdate(req.params.tweet_id, newTweetData, null, () =>{
+// 		res.redirect("/user/" + req.params.id + 
+// 			"/tweets/" + req.params.tweet_id);
+// 	});
+// });
+
 // app.listen(3000);
   app.set('port', process.env.PORT || 3001)
 
