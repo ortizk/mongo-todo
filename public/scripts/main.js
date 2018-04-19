@@ -1,41 +1,57 @@
-console.log("js is working");
+console.log("js file is for making your PUTs and DELETEs (via AJAX). No need to do for GET/POST because <a> and <form> understand them.");
 
 var $tasksList;
 var allTasks = [];
 
+
 $(document).ready(function() {
 
-	// get all tasks
-	$tasksList = $('#taskTarget');
-	$.ajax({
-		method: 'GET',
-		url: '/api/todo',
-		success: handleSuccess,
-		error: handleError
-	});
-
-	// create new task
-	$('#newTaskForm').on('submit', function(e) {
-		e.preventDefault();
-		// $.ajax({
-		// 	method: 'POST',
-		// 	url: '/api/todo',
-		// 	data: $(this).serialize(),
-		// 	success: newTaskSuccess,
-		// 	error: newTaskError
-		// });
-	})
-	// delete task
-  $tasksList.on('click', '.deleteBtn', function() {
-    console.log('clicked delete button to', '/api/todo/'+$(this).attr('data-id'));
-    // $.ajax({
-    //   method: 'DELETE',
-    //   url: '/api/todo/'+$(this).attr('data-id'),
-    //   success: deleteTaskSuccess,
-    //   error: deleteTaskError
-    // });
+    // get all tasks
+  $tasksList = $('#taskTarget');
+  $.ajax({
+    method: 'GET',
+    url: '/api/todos',
+    success: handleSuccess,
+    error: handleError
   });
-});
+
+  // create new task
+  $('#newTaskForm').on('submit', function(e) {
+    e.preventDefault();
+    $.ajax({
+      method: 'POST',
+      url: '/api/todos',
+      data: $(this).serialize(),
+      success: newTaskSuccess,
+      error: newTaskError
+    });
+  })
+  // delete task
+    $tasksList.on('click', '.deleteBtn', function() {
+    console.log('delete button clicked');
+    console.log($(this).attr('data-id'));
+    $.ajax({
+      method: 'DELETE',
+      url: '/api/todos/'+$(this).attr('data-id'),
+      success: deleteTaskSuccess,
+      error: deleteTaskError
+    });
+  });
+
+})
+
+
+// 	// delete task
+//   $tasksList.on('click', '.deleteBtn', function() {
+//     console.log('clicked delete button to', '/api/todo/'+$(this).attr('data-id'));
+//     // $.ajax({
+//     //   method: 'DELETE',
+//     //   url: '/api/todo/'+$(this).attr('data-id'),
+//     //   success: deleteTaskSuccess,
+//     //   error: deleteTaskError
+//     // });
+//   });
+// });
 
 function getTaskHtml(task) {
   return `<hr>
@@ -50,8 +66,8 @@ function getAllTasksHtml(tasks) {
   return tasks.map(getTaskHtml).join("");
 }
 
-// helper function to render all posts to view
-// note: we empty and re-render the collection each time our post data changes
+// // helper function to render all posts to view
+// // note: we empty and re-render the collection each time our post data changes
 function render () {
   // empty existing posts from view
   $tasksList.empty();
@@ -77,6 +93,7 @@ function handleError(e) {
 function newTaskSuccess(json) {
   $('#newTaskForm input').val('');
   allTasks.push(json);
+  console.log(json);
   render();
 }
 

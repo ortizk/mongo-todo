@@ -12,13 +12,13 @@ app.set('view engine', 'ejs');
 app.use(express.static('public'));
 app.use(bodyParser.urlencoded ({extended:false}));
 
-
-app.get('/', function(req, res){
-	console.log(db.myTasks);
+// displaying home page
+app.get('/', function(req, res) {
 	res.render('Home');
-});
+})
 
-app.get('/api/todo', function(req, res){
+//getting all tasks
+app.get('/api/todos', function(req, res){
 	db.Todo.find(function (err, tasks) {
 		if (err) {
 			console.log("index error: " + err);
@@ -26,16 +26,29 @@ app.get('/api/todo', function(req, res){
 		}
 		console.log(tasks);
 		res.json(tasks);
-	})
-})
+	});
+});
 
 
 // create new task
 app.post('/api/todos', function (req, res) {
+	console.log("post");
+	console.log(req.body);
 	var newTodo = new db.Todo({task: req.body.task, description: req.body.description})
-	newTask.save();
-	res.json(newTask);
+	newTodo.save(function() {
+		res.json(newTodo);
+	});
 })
+
+// delete task
+app.delete('/api/todos/:id', function (req, res) {
+  var taskId = req.params.id;
+  console.log("we got to app.delete in server.js");
+  db.Todo.findOneAndRemove({_id: taskId}, function(err,task){
+    console.log('task to delete', req.params);
+    res.json(task);
+  })
+});
 
 app.listen(3000);
 
